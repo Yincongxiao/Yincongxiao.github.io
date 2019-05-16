@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="希望自己在未来的路上越走越坚定."><title>GCD-dispatch_source | aSnail</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">GCD-dispatch_source</h1><a id="logo" href="/.">aSnail</a><p class="description">年轻就是折腾</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">GCD-dispatch_source</h1><div class="post-meta">Jul 2, 2016<span> | </span><span class="category"><a href="/categories/iOSTips/">iOSTips</a></span></div><div class="post-content"><h1 id="GCD-dispatch-source"><a href="#GCD-dispatch-source" class="headerlink" title="GCD-dispatch_source"></a>GCD-dispatch_source</h1><h3 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h3><p> <code>dispatch_source</code> 并不像<code>queue</code>,<code>async</code>等常见, 它是GCD中一种强大的事件 api<br>它是BSD系内核惯有功能<a href="https://en.wikipedia.org/wiki/Kqueue" target="_blank" rel="noopener">kqueue</a>的包装,它可以用来监听系统或者我们自定义的各种事件,它的强大之处是无论在任何线程上都可以通过函数<code>dispatch_source_merge_data()</code>来执行之前设置的回调句柄(理解为block)</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h3 id="创建事件源"><a href="#创建事件源" class="headerlink" title="创建事件源"></a>创建事件源</h3><p>先看代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    _source = dispatch_source_create(DISPATCH_SOURCE_TYPE_DATA_ADD, 0, 0, dispatch_queue_create(&quot;myqueue&quot;, DISPATCH_QUEUE_CONCURRENT));</span><br><span class="line">    dispatch_resume(_source);</span><br><span class="line">    dispatch_source_set_event_handler(_source, ^&#123;</span><br><span class="line">        unsigned long receive = dispatch_source_get_data(_source);</span><br><span class="line">        NSLog(@&quot;%zd&quot;,receive);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line">    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;</span><br><span class="line">        for (int i = 0; i &lt; 10; i ++) &#123;</span><br><span class="line">            dispatch_source_merge_data(_source, 2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们通过<code>dispatch_queue_create()</code>创建了一个<code>source</code>这个函数接受四个参数</p>
+<ul>
+<li>dispatch_source_type_t type //事件类型</li>
+<li>uintptr_t handle, //可以理解为句柄、索引或id，假如要监听进程，需要传入进程的ID</li>
+<li><p>unsigned long mask //可以理解为描述，提供更详细的描述，让它知道具体要监听什么</p>
+</li>
+<li><p>dispatch_queue_t _Nullable queue //自定义源需要的一个队列，用来处理所有的响应句柄（block）</p>
+</li>
+</ul>
+<p>chat: dispatch_source的事件类型.</p>
+<table>
+<thead>
+<tr>
+<th>type类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_DATA_ADD</td>
+<td>自定义的事件，变量增加</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_DATA_OR</td>
+<td>自定义的事件，变量OR</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_MACH_SEND</td>
+<td>MACH端口发送</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_MACH_RECV</td>
+<td>MACH端口接收</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_PROC</td>
+<td>进程监听,如进程的退出、创建一个或更多的子线程、进程收到UNIX信号</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_READ</td>
+<td>IO操作，如对文件的操作、socket操作的读响应</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_SIGNAL</td>
+<td>接收到UNIX信号时响应</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_TIMER</td>
+<td>定时器</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_VNODE</td>
+<td>文件状态监听，文件被删除、移动、重命名</td>
+</tr>
+<tr>
+<td>DISPATCH_SOURCE_TYPE_WRITE</td>
+<td>IO操作，如对文件的操作、socket操作的写响应</td>
+</tr>
+</tbody>
+</table>
+<p>还有一点要注意的是,默认我们创建的source是被suspend的,所以我们需要手动的调用<code>dispatch_resume(source)</code>恢复它.</p>
+<p><code>dispatch_source_set_event_handler()</code>函数用来设置souce事件触发的回调,它接受两个参数,我们设置的source和一个会掉的block</p>
+<p><code>dispatch_source_merge_data(_source, 2);</code>来手动触发source的事件源,第二个参数不能是 &lt;= 0 的数, 否则不能得到回调.</p>
+<p><code>dispatch_source_get_data()</code>得到事件源传递来的数据.</p>
+<p>如果我们使用<code>DISPATCH_SOURCE_TYPE_DATA_ADD</code>类型的事件源,并且我们<em>在短时间内</em>频繁的调用<code>dispatch_source_merge_data()</code>函数,之前注册的事件源回调并不会相应的调用多次,而只是调用一次,并且<code>dispatch_source_get_data()</code>得到的结果是多次的参数和20.<br>但是如果中间间隔时间长的话就会多次调用,每次传递值是2.</p>
+<p>其他有用的函数还有:</p>
+<table>
+<thead>
+<tr>
+<th>func</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>voird dispatch_source_set_cancel_handler(dispatch_source_t source,dispatch_block_t _Nullable handler)</td>
+<td>dispatch源取消时调用的block，一般用于关闭文件或socket等，释放相关资源</td>
+</tr>
+<tr>
+<td>long dispatch_source_testcancel(dispatch_source_t source)</td>
+<td>检测是否dispatch源被取消，如果返回非0值则表明dispatch源已经被取消</td>
+</tr>
+<tr>
+<td>void dispatch_source_set_registration_handler(dispatch_source_t source, dispatch_block_t registration_handler);</td>
+<td>可用于设置dispatch源启动时调用block，调用完成后即释放这个block。也可在dispatch源运行当中随时调用这个函数</td>
+</tr>
+<tr>
+<td>dispatch_suspend(queue)</td>
+<td>挂起queue</td>
+</tr>
+<tr>
+<td>dispatch_resume(source)</td>
+<td>分派源创建时默认处于暂停状态，在分派源分派处理程序之前必须先恢复</td>
+</tr>
+<tr>
+<td>uintptr_t dispatch_source_get_handle(dispatch_source_t source)</td>
+<td>得到dispatch源创建，即调用dispatch_source_create的第二个参数</td>
+</tr>
+<tr>
+<td>unsigned long dispatch_source_get_mask(dispatch_source_t source)</td>
+<td>得到dispatch源创建，即调用dispatch_source_create的第三个参数</td>
+</tr>
+<tr>
+<td>得到dispatch源创建，即调用dispatch_source_create的第三个参数</td>
+<td>取消dispatch源的事件处理–即不再调用block。如果调用dispatch_suspend只是暂停dispatch源。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>倒计时label</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">@implementation TimerLabel &#123;</span><br><span class="line">    dispatch_source_t _timer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTimeInterval:(NSUInteger)interval &#123;</span><br><span class="line">    if (self = [super init]) &#123;</span><br><span class="line">        self.numberOfLines = 1;</span><br><span class="line">        __weak CountLabel *weakSelf = self;</span><br><span class="line">        __block NSUInteger timeout = interval;</span><br><span class="line">        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br><span class="line">        _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);</span><br><span class="line">        dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0);</span><br><span class="line">        dispatch_source_set_event_handler(_timer, ^&#123;</span><br><span class="line">            if(timeout&lt;=0)&#123;</span><br><span class="line">                dispatch_source_cancel(_timer);</span><br><span class="line">                dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                    weakSelf.text = @&quot;ok now&quot;;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                NSUInteger seconds = timeout % (timeout + 1);</span><br><span class="line">                NSString *strTime = [NSString stringWithFormat:@&quot;剩余:%.2lu s&quot;, seconds];</span><br><span class="line">                dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                    [UIView beginAnimations:nil context:nil];</span><br><span class="line">                    [UIView setAnimationDuration:1];</span><br><span class="line">                    weakSelf.text = strTime;</span><br><span class="line">                    [weakSelf sizeToFit];</span><br><span class="line">                    [UIView commitAnimations];</span><br><span class="line">                &#125;);</span><br><span class="line">                timeout--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)start &#123;</span><br><span class="line">    dispatch_resume(_timer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2016/11/15/YYDiskCache-study/">YYDiskCache study</a><a class="next" href="/2016/05/10/dispatch-group-t-使用详解/">dispatch_group_t 使用详解</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="http://yincongxiao.top"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOSTips/">iOSTips</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS源码分析/">iOS源码分析</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/CoreAnimation/" style="font-size: 15px;">CoreAnimation</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/16/Xcode运行python脚本/">Xcode运行python脚本</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/28/Swift4-0/">Swift4.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/Https简单复习/">Https简单复习.md</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/Toll-Free-Bridging/">Toll-Free Bridging</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/20/YYMemeryCache-study/">YYMemeryCache-study</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/15/YYDiskCache-study/">YYDiskCache study</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/02/GCD-dispatch-source/">GCD-dispatch_source</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/10/dispatch-group-t-使用详解/">dispatch_group_t 使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/dispatch-barrier使用详解/">dispatch_barrier使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/06/CoreAnimation-CALayer-四/">CoreAnimation-CALayer(四)</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">aSnail.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
