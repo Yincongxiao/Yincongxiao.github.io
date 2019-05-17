@@ -1,158 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
   <url>
     <loc>http://yincongxiao.top/2018/04/28/Swift4-0/</loc>
-    
-    <lastmod>2019-05-17T04:58:09.728Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-17</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2019/05/16/Xcode%E8%BF%90%E8%A1%8Cpython%E8%84%9A%E6%9C%AC/</loc>
-    
-    <lastmod>2019-05-17T04:48:19.623Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yincongxiao.top/Python/index.html</loc>
-    
-    <lastmod>2019-05-17T04:44:18.369Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-17</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2015/07/20/%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95-load-%E5%92%8C-initialize%E6%96%B9%E6%B3%95/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.689Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/05/10/dispatch-group-t-%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.688Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2015/07/25/runtime%E9%BB%91%E9%AD%94%E6%B3%95-Method-Swizzling-md/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.688Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2015/11/15/reactivecocoa%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.688Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/05/02/dispatch-barrier%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.687Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2015/01/25/UIView%E7%9A%84layoutSubViews/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.687Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/11/15/YYDiskCache-study/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.687Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/11/20/YYMemeryCache-study/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.687Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2017/02/23/Toll-Free-Bridging/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.686Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2015/11/23/UIScrollView-%E7%9A%84-delaysContentTouches/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.686Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/01/10/CoreAnimation-CALayer-%E4%BA%8C/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.685Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/07/02/GCD-dispatch-source/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.685Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2017/03/18/Https%E7%AE%80%E5%8D%95%E5%A4%8D%E4%B9%A0/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.685Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2014/12/26/NSArray-NSDictionary-NSString-%E4%B8%8E-NSData%E7%9A%84%E8%BD%AC%E6%8D%A2/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.685Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/02/06/CoreAnimation-CALayer-%E5%9B%9B/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.685Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2014/09/21/CGGeometry/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.684Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/02/01/CoreAnimation-CALayer-%E4%B8%89/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.684Z</lastmod>
-    
-  </url>
-  
-  <url>
+    <lastmod>2019-05-16</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2016/01/03/CoreAnimation-CALayer-%E4%B8%80/</loc>
-    
-    <lastmod>2019-05-16T11:52:21.684Z</lastmod>
-    
+    <lastmod>2019-05-16</lastmod>
   </url>
-  
-  <url>
-    <loc>http://yincongxiao.top/404.html</loc>
-    
-    <lastmod>2019-05-16T11:52:21.684Z</lastmod>
-    
-  </url>
-  
 </urlset>
