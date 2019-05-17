@@ -1,7 +1,8 @@
 ---
 title: Xcode运行python脚本
 date: 2019-05-16 21:03:30
-tags:
+toc: true
+description: Xcode可以允许我们使用一些脚本进行编译前的自动化工作,通常使用shell脚本,但是很多人可能会和我一样对python脚本更有兴趣,那么怎样使用Xcode运行python脚本呢?
 ---
 
 ## Xcode运行python脚本
