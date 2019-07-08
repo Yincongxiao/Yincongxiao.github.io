@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://yincongxiao.top/2019/07/08/iOS-%E5%92%8C-MacOSX-%E4%B8%AD%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2019-07-08</lastmod>
+  </url>  <url>
+    <loc>http://yincongxiao.top/2019/05/23/%E5%85%B3%E4%BA%8EAMP/</loc>
+    <lastmod>2019-05-23</lastmod>
+  </url>  <url>
     <loc>http://yincongxiao.top/2018/04/28/Swift4-0/</loc>
     <lastmod>2019-05-17</lastmod>
   </url>  <url>
@@ -31,22 +37,22 @@
     <loc>http://yincongxiao.top/2016/11/20/YYMemeryCache-study/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
-    <loc>http://yincongxiao.top/2015/11/23/UIScrollView-%E7%9A%84-delaysContentTouches/</loc>
+    <loc>http://yincongxiao.top/2017/02/23/Toll-Free-Bridging/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
-    <loc>http://yincongxiao.top/2017/02/23/Toll-Free-Bridging/</loc>
+    <loc>http://yincongxiao.top/2015/11/23/UIScrollView-%E7%9A%84-delaysContentTouches/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
     <loc>http://yincongxiao.top/2016/01/10/CoreAnimation-CALayer-%E4%BA%8C/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
-    <loc>http://yincongxiao.top/2016/07/02/GCD-dispatch-source/</loc>
+    <loc>http://yincongxiao.top/2014/12/26/NSArray-NSDictionary-NSString-%E4%B8%8E-NSData%E7%9A%84%E8%BD%AC%E6%8D%A2/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
     <loc>http://yincongxiao.top/2017/03/18/Https%E7%AE%80%E5%8D%95%E5%A4%8D%E4%B9%A0/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
-    <loc>http://yincongxiao.top/2014/12/26/NSArray-NSDictionary-NSString-%E4%B8%8E-NSData%E7%9A%84%E8%BD%AC%E6%8D%A2/</loc>
+    <loc>http://yincongxiao.top/2016/07/02/GCD-dispatch-source/</loc>
     <lastmod>2019-05-16</lastmod>
   </url>  <url>
     <loc>http://yincongxiao.top/2016/02/06/CoreAnimation-CALayer-%E5%9B%9B/</loc>
